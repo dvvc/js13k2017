@@ -6,5 +6,5 @@ layout: page
 # Index title
 
 {% for post in site.posts %}
-  - [{{ post.title }}]({{ site.url }}{{ post.url }})
+  - [{{ post.title }}]({{ post.url }})
 {% endfor %}
