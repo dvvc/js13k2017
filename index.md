@@ -1,6 +1,6 @@
 ---
 title: JS13K entry
-layout: page
+layout: default
 ---
 
 # Index title
