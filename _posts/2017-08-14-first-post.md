@@ -31,12 +31,12 @@ ideas that should match the **LOST** theme. This is what I have in mind so far:
    it. On the other hand, procedural content may be a way of not having to spend
    my time fighting Blender.
 
-And that's what I know so far! I wanted to spend this first day doing some
-research on the technologies I'll use (I know [A-Frame](https://aframe.io) will
-be one of them, and I've also read interesting things about
-[TinyMusic](https://github.com/kevincennis/TinyMusic)), but in the end I spent
-all the time configuring Github Pages and Jekyll. This has been a pain, but one
-of my goals is keeping the journal, so I guess it's been a good investment.
+I wanted to spend this first day doing some research on the technologies I'll
+use (I know [A-Frame](https://aframe.io) will be one of them, and I've also read
+interesting things about [TinyMusic](https://github.com/kevincennis/TinyMusic)),
+but in the end I spent all the time configuring Github Pages and Jekyll. This
+has been a pain, but one of my goals is keeping the journal, so I guess it's
+been a good investment.
 
 The goal for tomorrow is generating a basic skeleton and a development
 pipeline. I am looking forward to you, Webpack! (not). Hopefully I can also
