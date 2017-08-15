@@ -1,6 +1,118 @@
 ---
 ---
-body {
 
-  background-color: red;
+$left-margin: 200px;
+
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Georgia, Helvetica, serif;
+  font-size: 13pt;
+  color: #444;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+h1 {
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 700;
+
+}
+
+a:hover {
+  color: #971515;
+
+}
+
+#page {
+  width: 720px;
+  margin: 0px auto;
+  padding: 50px;
+
+  p {
+    line-height: 1.4;
+    font-size: 0.9em;
+
+  }
+
+}
+
+#post {
+
+  padding: 20px 0px 0px 20px;
+  height: calc(100% - 60px);
+
+  #post-left {
+    float: left;
+    width: $left-margin;
+    text-align: right;
+    background-color: #eee;
+    height: 100%;
+    padding: 20px;
+
+    h1 {
+      color: #aaa;
+      font-size: 3em;
+      font-weight: boldest;
+      font-family: Arial, sans;
+      margin: 20px 0px 20px 0px;
+    }
+
+    h2 {
+      font-size: 1.3em;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    h3 {
+      color: #777;
+      font-size: 1em;
+      text-transform: uppercase;
+      font-family: Helvetica, Arial, sans;
+      margin: 10px 0;
+      padding: 0;
+    }
+  }
+
+  #post-right {
+    float: left;
+    width: calc(100% - #{$left-margin} - 80px);
+    margin-top: 5px;
+    margin-left: 40px;
+    height: calc(100% - 10px);
+    line-height: 1.4;
+    height: 100%;
+    font-size: 0.9em;
+    overflow-y: auto;
+
+    #post-content {
+      max-width: 800px;
+
+      p {
+        margin: 20px 0px 30px 0px;
+        padding: 0;
+      }
+
+      li p {
+        margin: 20px 0px;
+        padding: 0;
+      }
+
+    }
+  }
+
+  .clearfix {
+    clear: both;
+  }
 }
