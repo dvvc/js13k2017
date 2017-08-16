@@ -19,6 +19,7 @@ The theme for this year is **"LOST"**.
 ## Posts
 ---
 
-{% for post in site.posts %}
+{% assign posts = site.posts | sort: 'date' %}
+{% for post in posts %}
   - [{{ post.title }} — {{post.subtitle}}]({{ post.url | prepend: site.github.url }})
 {% endfor %}
