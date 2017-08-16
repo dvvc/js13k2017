@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js --content-base game --port 8081",
-    "clean": "rm -rf assets",
-    "build": "npm run clean && webpack --config webpack.config.js"
+    "clean": "rm -rf assets dist submission.zip",
+    "build": "npm run clean && webpack --config webpack.config.js",
+    "dist": "npm run build && mkdir dist && cp game/index.html dist && cp -r assets dist",
+    "zip": "npm run dist && zip -r submission.zip dist",
+    "size": "npm run zip > /dev/null && ls -l submission.zip && npm run clean > /dev/null"
   },
   "repository": {
     "type": "git",
