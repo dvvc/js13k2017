@@ -1,0 +1,37 @@
+{
+  "name": "js13k2017",
+  "version": "0.0.1",
+  "description": "Entry for the JS13kGames competition",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js --content-base game --port 8081",
+    "clean": "rm -rf assets",
+    "build": "npm run clean && webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvvc/js13k2017.git"
+  },
+  "keywords": [
+    "game",
+    "webvr",
+    "a-frame"
+  ],
+  "author": "David Villegas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvvc/js13k2017/issues"
+  },
+  "homepage": "https://github.com/dvvc/js13k2017#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "html-webpack-plugin": "^2.30.1",
+    "jshint": "^2.9.5",
+    "jshint-loader": "^0.8.4",
+    "webpack": "^3.5.4",
+    "webpack-dev-server": "^2.7.1"
+  }
+}
