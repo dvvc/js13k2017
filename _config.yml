@@ -1,2 +1,5 @@
 title: JS13k Entry!
 baseurl: /js13k2017
+
+markdown: kramdown
+highlighter: rouge
