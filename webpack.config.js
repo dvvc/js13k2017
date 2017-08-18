@@ -33,12 +33,15 @@ let config = {
     publicPath: '/assets/',
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
   ],
 };
+
+if (process.env.ENV !== 'dev') {
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    }
+  }));
+}
 
 module.exports = config;

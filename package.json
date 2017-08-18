@@ -4,7 +4,7 @@
   "description": "Entry for the JS13kGames competition",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --content-base game --port 8081",
+    "dev": "ENV=dev webpack-dev-server --config webpack.config.js --content-base game --port 8081",
     "clean": "rm -rf assets dist submission.zip",
     "build": "npm run clean && webpack --config webpack.config.js",
     "dist": "npm run build && mkdir dist && cp game/index.html dist && cp -r assets dist",
