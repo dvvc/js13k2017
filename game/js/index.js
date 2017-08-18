@@ -114,11 +114,14 @@ function diamondSquare(vertices) {
 
         this.geometry.rotateX(-Math.PI/2);
 
-        //this.material = new THREE.MeshStandardMaterial({color: 0xff0000});
-        this.material = new THREE.MeshPhongMaterial({
-          color: 0x000000,
-          wireframe: true
+        this.material = new THREE.MeshToonMaterial({
+          color: 0x7d4745,
+          shading: THREE.FlatShading,
         });
+        //this.material = new THREE.MeshPhongMaterial({
+        //  color: 0x00ff88,
+          //wireframe: true
+        //});
 
         this.mesh = new THREE.Mesh(this.geometry, this.material);
         this.mesh.scale.set(TERRAIN_SCALE_FACTOR,1,TERRAIN_SCALE_FACTOR);
