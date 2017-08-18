@@ -12,7 +12,13 @@
   <body>
     <a-scene id="scene">
       <a-entity position="252 243 231" rotation="-53 30 0">
-        <a-camera></a-camera>
+        <a-camera>
+          <a-entity cursor
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;"
+                    material="color: #CCC; shader: flat;">
+          </a-entity>
+        </a-camera>
       </a-entity>
       <a-entity position="3.196 278.73 -55.169" light="intensity:0.51;type:point" rotation="" scale="" visible="">
       </a-entity>
