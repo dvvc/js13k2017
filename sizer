@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+
+// MAIN
+if (process.argv.length !== 3) {
+  console.error('Usage: ' + process.argv[1] + ' <file>');
+  process.exit(1);
+}
+
+
+fs.readFile(process.argv[2], (err, contents) => {
+
+  if (err) {
+    console.error('Error reading file: ' + err);
+    process.exit(1);
+  }
+
+  let tokens = [];
+
+  // First, find and extract all strings
+  // NOTE that this only considers double quoted strings, but that's ok because
+  //      babel translates single quote
+  let stringRe = /"[^"]*"/g;
+  let posSizes = [];
+  let result;
+
+  while ((result = stringRe.exec(contents)) !== null) {
+    posSizes.push([stringRe.lastIndex - result[0].length, result[0].length]);
+    tokens.push(result[0]);
+  }
+
+  posSizes.reverse();
+
+  let strArray = contents.toString().split('');
+  posSizes.forEach(([p,s]) => {
+    strArray.splice(p,s,'.'); // The dot is just to be safe
+  });
+
+  contents = strArray.join('');
+
+  // Now, split all words and numbers
+  tokens = tokens.concat(contents.split(/[^a-zA-Z0-9_\$]+/));
+
+  // Count all occurrences
+  let counts = {};
+  tokens.forEach((token) => {
+    if (counts[token] === undefined) {
+      counts[token] = 0;
+    }
+    counts[token]++;
+  });
+
+  let keys = Object.keys(counts);
+  keys.sort((x,y) => (counts[y] * y.length) - (counts[x] * x.length));
+
+  for(let i = 0; i < Math.min(keys.length, 20); i++) {
+    let k = keys[i];
+    console.log(`${k} - ${counts[k]} - ${k.length * counts[k]}`);
+  }
+
+})
