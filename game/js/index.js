@@ -1,13 +1,13 @@
 'use strict';
 
-const TERRAIN_SIZE = 100; // In meters / units
-const TERRAIN_SEGMENTS = 8; // Must be 2^n
-const TERRAIN_SCALE_FACTOR = 8;
+const TERRAIN_SIZE = 1000; // In meters / units
+const TERRAIN_SEGMENTS = 32; // Must be 2^n
+const TERRAIN_SCALE_FACTOR = 4;
 const TERRAIN_SIDE_VERTICES = TERRAIN_SEGMENTS + 1;
 
 //const TERRAIN_VERTICES = TERRAIN_SIDE_VERTICES * TERRAIN_SIDE_VERTICES;
 const TERRAIN_INITIAL_DAMPING = 200;
-const TERRAIN_DAMPING_FACTOR = 0.8;
+const TERRAIN_DAMPING_FACTOR = 0.9;
 
 const AFRAME = window.AFRAME;
 const THREE = window.THREE;
@@ -114,7 +114,7 @@ function diamondSquare(vertices) {
 
         this.geometry.rotateX(-Math.PI/2);
 
-        this.material = new THREE.MeshToonMaterial({
+        this.material = new THREE.MeshPhongMaterial({
           color: 0x7d4745,
           shading: THREE.FlatShading,
         });
