@@ -107,6 +107,66 @@ function generateTerrain(vertices) {
 
 }
 
+
+/*************************************
+ *
+ * Components
+ *
+ *
+ *************************************/
+
+function registerComponents() {
+  //
+  // Terrain
+  //
+  AFRAME.registerComponent('terrain', {
+    schema: {
+      size: {type: 'number', default: 1},
+    },
+    init: function() {
+      let data = this.data;
+      let el = this.el;
+
+      this.geometry = new THREE.PlaneGeometry(data.size, data.size,
+                                              TERRAIN_SEGMENTS, TERRAIN_SEGMENTS);
+
+      generateTerrain(this.geometry.vertices);
+
+      this.geometry.rotateX(-Math.PI/2);
+
+      this.material = new THREE.MeshPhongMaterial({
+        color: 0x7d4745,
+        shading: THREE.FlatShading,
+      });
+
+      this.mesh = new THREE.Mesh(this.geometry, this.material);
+      this.mesh.scale.set(TERRAIN_SCALE_FACTOR,1,TERRAIN_SCALE_FACTOR);
+      el.setObject3D('mesh', this.mesh);
+    }
+  });
+
+  //
+  // Ship
+  //
+  AFRAME.registerComponent('ship', {
+    schema: {
+      speed: {type: 'number', default: 1},
+    },
+    init: function() {
+      this.directionVec3 = new THREE.Vector3();
+      this.camera = document.querySelector('a-camera');
+    },
+    tick: function(time, timeDelta) {
+      let position = this.el.object3D.position;
+      let speed = this.data.speed * (timeDelta / 1000);
+      let cameraRotation = this.camera.object3D.getWorldDirection();
+      cameraRotation.z *= -1;
+      this.camera.object3D.position.add(cameraRotation.multiplyScalar(speed));
+    },
+  });
+
+}
+
 /*************************************
  *
  * Main game functions
@@ -116,44 +176,22 @@ function generateTerrain(vertices) {
 
 (function() {
 
-    // Create terrain
-    AFRAME.registerComponent('terrain', {
-      schema: {
-        size: {type: 'number', default: 1},
-      },
-      init: function() {
-        let data = this.data;
-        let el = this.el;
 
-        this.geometry = new THREE.PlaneGeometry(data.size, data.size,
-                                                TERRAIN_SEGMENTS, TERRAIN_SEGMENTS);
-
-        generateTerrain(this.geometry.vertices);
-
-        this.geometry.rotateX(-Math.PI/2);
-
-        this.material = new THREE.MeshPhongMaterial({
-          color: 0x7d4745,
-          shading: THREE.FlatShading,
-        });
-
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-        this.mesh.scale.set(TERRAIN_SCALE_FACTOR,1,TERRAIN_SCALE_FACTOR);
-        el.setObject3D('mesh', this.mesh);
-      }
-
-    });
-
+  registerComponents();
 
   window.onload = function() {
 
-    let scene = document.getElementById('scene');
+    let scene = document.querySelector('a-scene');
 
+    // Generate terrain
     let terrain = document.createElement('a-entity');
-    terrain.setAttribute('terrain', `size: ${TERRAIN_SIZE}`);
-    terrain.setAttribute('position', {x: 0, y: -10,z: 0});
+    terrain.setAttribute('terrain', {size: TERRAIN_SIZE});
+    terrain.setAttribute('position', '0 10 0');
 
     scene.appendChild(terrain);
+
+    // Position ship
+
   };
 
 })();
