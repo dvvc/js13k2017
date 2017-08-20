@@ -5,7 +5,7 @@ const TERRAIN_SEGMENTS = 32; // Must be 2^n
 const TERRAIN_SCALE_FACTOR = 4;
 const TERRAIN_SIDE_VERTICES = TERRAIN_SEGMENTS + 1;
 
-const TERRAIN_INITIAL_DAMPING = 200;
+const TERRAIN_INITIAL_ELEVATION = 200;
 const TERRAIN_DAMPING_FACTOR = 0.9;
 
 const AFRAME = window.AFRAME;
@@ -103,7 +103,7 @@ function generateTerrain(vertices) {
   square(vertices,
          0, 0, // top
          TERRAIN_SIDE_VERTICES - 1, TERRAIN_SIDE_VERTICES - 1, // bottom
-         TERRAIN_INITIAL_DAMPING);
+         TERRAIN_INITIAL_ELEVATION);
 
 }
 
