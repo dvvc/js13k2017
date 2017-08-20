@@ -157,11 +157,9 @@ function registerComponents() {
       this.camera = document.querySelector('a-camera');
     },
     tick: function(time, timeDelta) {
-      let position = this.el.object3D.position;
       let speed = this.data.speed * (timeDelta / 1000);
       let cameraRotation = this.camera.object3D.getWorldDirection();
-      cameraRotation.z *= -1;
-      this.camera.object3D.position.add(cameraRotation.multiplyScalar(speed));
+      this.el.object3D.position.add(cameraRotation.multiplyScalar(-speed));
     },
   });
 
