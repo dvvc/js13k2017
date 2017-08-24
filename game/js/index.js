@@ -9,7 +9,7 @@ const TERRAIN_SIDE_VERTICES = TERRAIN_SEGMENTS + 1;
 const TERRAIN_INITIAL_ELEVATION = 200;
 const TERRAIN_DAMPING_FACTOR = 0.9;
 
-const NUM_HIKERS = 10;
+const NUM_HIKERS = 100;
 const HIKER_MOVE_PERIOD = 800; // In ms
 const HIKER_SPEED = 25; // In units per move period
 
@@ -17,6 +17,9 @@ const HIKER_SPEED = 25; // In units per move period
 
 const AFRAME = window.AFRAME;
 const THREE = window.THREE;
+
+const Raycaster = new THREE.Raycaster();
+const DIRECTION_DOWN = new THREE.Vector3(0,-1,0);
 
 /**** Terrain generation ******/
 
@@ -114,6 +117,13 @@ function generateTerrain(vertices) {
 
 }
 
+function intersectTerrain(position) {
+  Raycaster.set(position, DIRECTION_DOWN);
+  Raycaster.near = 10;
+  Raycaster.far = 4000;
+  return Raycaster.intersectObject(document.getElementById('terrain').getObject3D('mesh'));
+}
+
 /**
  * Hikers helpers
  *
@@ -192,18 +202,6 @@ function registerComponents() {
   // Hiker
   //
 
-  // Helper method to find
-  let hikerIntersect = function(e) {
-    console.log('THIS', this);
-    console.log('Hiker hit something!', e);
-    let position = e.detail.intersections[0].point;
-    this.setAttribute('position', {
-      x: position.x,
-      y: position.y + 31,
-      z: position.z});
-    this.removeEventListener('raycaster-intersection', hikerIntersect);
-  }
-
   AFRAME.registerComponent('hiker', {
     init: function() {
       let hair = document.createElement('a-box');
@@ -223,19 +221,13 @@ function registerComponents() {
       body.setAttribute('scale', '1 2 1');
       this.el.appendChild(body);
 
-      let raycaster = document.createElement('a-entity');
-      raycaster.setAttribute('raycaster', {
-        direction: '0 -1 0',
-        showLine: true,
-        objects: ['#terrain']
+      let position = this.el.getAttribute('position');
+      let terrainIntersection = intersectTerrain(position);
+      this.el.setAttribute('position', {
+        x: position.x,
+        y: terrainIntersection[0].point.y + 31,
+        z: position.z,
       });
-      this.el.appendChild(raycaster);
-
-      // This is kind of hacky, but seems to work: we do a one-time raycast
-      // intersection towards -Y until the terrain is hit. When this happens, we
-      // set the hiker's position to the intersection point and then remove the
-      // handler
-      this.el.addEventListener('raycaster-intersection', hikerIntersect);
 
       this.direction = new THREE.Vector3(Math.random(), 0, Math.random());
       this.timeSinceLastMove = 0;
@@ -247,10 +239,22 @@ function registerComponents() {
       if (this.timeSinceLastMove > HIKER_MOVE_PERIOD) {
         this.timeSinceLastMove = 0;
         let position = this.el.getAttribute('position');
+        let newPosition = new THREE.Vector3(
+          position.x + (this.direction.x * HIKER_SPEED),
+          1000, // High enough so we can calculate the terrain intersection with a downwards ray
+          position.z + (this.direction.z * HIKER_SPEED)
+        );
+        let terrainIntersection = intersectTerrain(newPosition);
+
+        if (terrainIntersection.length === 0) {
+          console.log('INVALID INTERSECTION', newPosition)
+          this.el.parentNode.removeChild(this.el);
+          return;
+        }
         this.el.setAttribute('position', {
-          x: position.x + (this.direction.x * HIKER_SPEED),
-          y: position.y,
-          z: position.z + (this.direction.z * HIKER_SPEED),
+          x: terrainIntersection[0].point.x,
+          y: terrainIntersection[0].point.y + 31,
+          z: terrainIntersection[0].point.z,
         });
       }
     },
@@ -286,7 +290,9 @@ function registerComponents() {
     // Position ship
 
     // Generate hikers
-    generateHikers(scene);
+    // FIXME: This is hacky, but we need to make sure the terrain has been
+    // created and attached to the scene
+    setTimeout(() => generateHikers(scene), 100);
 
   };
 
